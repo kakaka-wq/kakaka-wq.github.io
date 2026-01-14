@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>停车联系二维码</title>
+    <title>晏乐扫码了</title>
     <style>
         * {
             margin: 0;
@@ -11,112 +11,101 @@
             box-sizing: border-box;
         }
         body {
-            background-color: #f5f5f5;
-            font-family: "Arial", sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+            position: relative;
         }
-        .container {
+        /* 漂浮的“扫码了”文字样式 */
+        .float-text {
+            position: absolute;
+            color: #00ff9d;
+            font-size: 20px;
+            opacity: 0;
+            user-select: none;
+            text-shadow: 0 0 8px #00ff9d, 0 0 15px #00ff9d;
+            animation: float linear infinite;
+        }
+        /* 多速度漂浮动画，营造层次 */
+        @keyframes float {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* 中间大字样式 */
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
             text-align: center;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
+        .title h1 {
+            color: #fff;
+            font-size: 50px;
+            text-shadow: 0 0 15px #00ff9d, 0 0 30px #00ff9d, 0 0 45px #00ff9d;
+            letter-spacing: 8px;
+            animation: pulse 2s ease-in-out infinite alternate;
         }
-        .qrcode {
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 20px;
-            border: 1px solid #eee;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .note {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-        .phone-container {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f0f8ff;
-            border-radius: 5px;
-            display: inline-block;
-        }
-        .phone-link {
-            color: #2196f3;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
+        /* 文字呼吸发光动画 */
+        @keyframes pulse {
+            from {
+                text-shadow: 0 0 15px #00ff9d, 0 0 30px #00ff9d;
+            }
+            to {
+                text-shadow: 0 0 30px #00ff9d, 0 0 60px #00ff9d, 0 0 90px #00ff9d;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>停车联系二维码</h1>
-        <!-- 二维码图片（替换为你生成的专属二维码） -->
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=tel:13883051447" alt="停车联系二维码" class="qrcode">
-        <p class="note">扫码后可显示手机号并一键拨号</p>
-        
-        <!-- 备用手机号显示（防止扫码失败） -->
-        <div class="phone-container">
-            <a href="tel:13883051447" class="phone-link">联系电话：13883051447</a>
-        </div>
+    <div class="title">
+        <h1>晏乐扫码了</h1>
     </div>
 
     <script>
-        // 功能说明：
-        // 1. 二维码由qrserver免费API生成，数据为tel:手机号（支持一键拨号）
-        // 2. 替换下方手机号为你的实际号码即可使用
-        // 3. 若需自定义二维码样式，可修改API参数（size/color等）
-    </script>
-</body>
-</html>
+        // 仅保留“扫码了”作为漂浮内容
+        const floatContent = "扫码了";
+        const container = document.body;
+        const itemCount = 150; // 漂浮数量大幅增加，视觉更密集
 
-</head>
-<body>
-    <div class="text-container">
-        <h1>周李杰</h1>
-        <p>快安慰我 😭</p>
-    </div>
+        // 创建漂浮的“扫码了”文字
+        function createFloatText() {
+            const text = document.createElement("div");
+            text.className = "float-text";
+            text.textContent = floatContent;
+            // 随机位置、大小、动画时长，营造错落感
+            text.style.left = Math.random() * 100 + "vw";
+            text.style.fontSize = (16 + Math.random() * 20) + "px";
+            text.style.animationDuration = (8 + Math.random() * 20) + "s";
+            text.style.animationDelay = Math.random() * 15 + "s";
+            // 随机旋转方向和额外偏移
+            text.style.transformOrigin = "center";
+            
+            container.appendChild(text);
 
-    <script>
-        // 只保留哭脸表情
-        const emojis = ["😭", "😢", "😥", "😿", "🥺"];
-        
-        // 生成哭脸（增加密度）
-        function createCryEmoji() {
-            const emoji = document.createElement("div");
-            emoji.className = "cry-emoji";
-            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            
-            // 随机位置、大小、动画延迟（缩小间距）
-            emoji.style.left = Math.random() * 100 + "vw";
-            emoji.style.fontSize = (18 + Math.random() * 25) + "px";
-            emoji.style.animationDelay = Math.random() * 5 + "s";
-            emoji.style.animationDuration = (3 + Math.random() * 6) + "s";
-            
-            document.body.appendChild(emoji);
-            
-            // 快速移除过期表情，循环生成
+            // 循环生成，移除超出屏幕的元素
             setTimeout(() => {
-                emoji.remove();
-            }, 8000);
+                text.remove();
+                createFloatText();
+            }, 30000);
         }
 
-        // 缩短生成间隔（从300ms改为150ms），初始生成更多
-        setInterval(createCryEmoji, 150);
-        for (let i = 0; i < 50; i++) {
-            createCryEmoji();
+        // 初始化生成所有漂浮文字
+        for (let i = 0; i < itemCount; i++) {
+            createFloatText();
         }
     </script>
 </body>
